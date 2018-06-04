@@ -72,3 +72,37 @@ fetch("https://jsonplaceholder.typicode.com/posts", initObject)
   .then( response => response.json())
   .then( response => console.log(response))
   .catch ( err => console.log(err));
+
+/*
+  The fetch() method can take in a Request object instead of a URL and init object.
+  The Request constructor takes in the same parameters as the fetch() method.
+  Request objects are used because they make fetch requests a bit cleaner and
+  also offer a bit more control;
+*/
+
+let initOBJECT = {
+  method: 'GET',
+  headers: new Headers(),
+  mode: 'cors',
+  // body: JSON.stringify({})
+};
+
+// create a new request object using URL and init object
+let request = new Request("https://jsonplaceholder.typicode.com/posts", initOBJECT);
+
+fetch(request)
+  .then( response => response.json())
+  .then( responseJSON => {
+    for (let key in responseJSON) {
+      console.log(key, responseJSON[key].title);
+    }
+  })
+  .catch( err => console.log(err));
+
+  /*
+    REUSING REQUEST OBJECTS
+      If a Request object is used more than once in a Fetch request that involves
+      bodies (POST, PUT) it will throw an error.
+      However, Request objects can be used more than once in Fetch requests that
+      don't involve bodies(Head,Get).
+  */
